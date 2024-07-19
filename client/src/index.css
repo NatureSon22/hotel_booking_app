@@ -1,0 +1,17 @@
+@import url('https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+@layer components {
+    .decor::before {
+        content: "";
+        @apply  absolute w-[8px] h-full top-0 -left-3 bg-yellow-400 md:-left-4
+    }
+
+    .apply-transition {
+        @apply transition-all duration-200
+    }
+}

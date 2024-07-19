@@ -1,0 +1,53 @@
+INSTALLING DEPENDECIES
+- mark as --save-dev so that the modules are for development only
+
+LAYOUT PAGES 
+- holds the major structure of the page
+- by using container and mx-auto you can create a body that is responsive / relative to the given space
+
+WHEN DOWNLOADING DEPENDENCIES
+- always download its types counterpart
+    - npm i bcryptjs
+    - npm i @types/bcryptjs 
+
+
+IN MODELS, you can use middlewares to shorten yur code for example. Lets define a middleware in the User schema
+import bcrypt from "bcryptjs"
+
+userSchema.pre("save", async function(next) {
+    if(this.isModified("password")) { // pass in the field you want to check
+        this.password = await bcrypt.hash(this.password, 8)
+    }
+    next()
+})
+
+import jwt from "jsonwebtoken"
+
+const register = async(req: Request, res: Response) => {
+    // ... some validations
+    const user = await User(req.body);
+
+    const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: "1d" })
+
+    res.cookie("auth_token", token, { 
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "deployment",
+        maxAge: 86400000
+    })
+    .status(200)
+} 
+
+
+TO VALIDATE ARGUMENTS use "express-validator"
+
+const router = express.Router()
+
+router.post("/register", [
+    check("firstName", "Field is required").isString(),
+    check("lasttName", "Field is required").isString(),
+    //...
+] ,signUpUser)
+
+
+
+
