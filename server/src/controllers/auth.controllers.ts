@@ -33,17 +33,20 @@ const login = async (req: Request, res: Response) => {
       }
     );
 
-    res
-      .cookie("auth_token", token, {
-        httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
-        maxAge: 24 * 60 * 60 * 1000, // 1 day
-      })
-      .status(200)
-      .json({ userId: user._id });
+    res.cookie("auth_token", token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      maxAge: 86400000,
+    });
+
+    return res.status(200).json({ userId: user._id });
   } catch (error) {
     res.status(500).json({ message: "Something went wrong" });
   }
 };
 
-export { login };
+const validateToken = (req: Request, res: Response) => {
+  res.status(200).json({ useId: req.userId });
+};
+
+export { login, validateToken };

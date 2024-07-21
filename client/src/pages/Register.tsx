@@ -1,6 +1,10 @@
 import { useForm } from "react-hook-form";
+import { useMutation } from "react-query";
+import * as apiClient from "../service/api-client";
+import ToastStore from "../context/toastStore";
+import { Link, useNavigate } from "react-router-dom";
 
-type RegisterFormData = {
+export type RegisterFormData = {
   email: string;
   password: string;
   firstName: string;
@@ -15,9 +19,21 @@ const Register = () => {
     getValues,
     formState: { errors },
   } = useForm<RegisterFormData>();
+  const showToast = ToastStore((state) => state.showToast);
+  const navigate = useNavigate();
+  const mutation = useMutation(apiClient.register, {
+    onSuccess: () => {
+      showToast("Account created", "SUCCESS");
+      navigate("/");
+    },
+    onError: (error: Error) => {
+      showToast(error.message, "ERROR");
+    },
+  });
+  const { isLoading } = mutation;
 
   const onSubmit = (data: RegisterFormData) => {
-    console.log(data);
+    mutation.mutate(data);
   };
 
   return (
@@ -66,7 +82,6 @@ const Register = () => {
               </div>
             </label>
           </div>
-
           <label className="flex flex-col gap-2">
             <span className="text-sm font-semibold">Email</span>
             <input
@@ -88,7 +103,6 @@ const Register = () => {
               {errors.email?.message || "error"}
             </div>
           </label>
-
           <label className="flex flex-col gap-2">
             <span className="text-sm font-semibold">Password</span>
             <input
@@ -110,7 +124,6 @@ const Register = () => {
               {errors.password?.message || "error"}
             </div>
           </label>
-
           <label className="flex flex-col gap-2">
             <span className="text-sm font-semibold">Confirm Password</span>
             <input
@@ -131,11 +144,19 @@ const Register = () => {
               {errors.confirmPassword?.message || "error"}
             </div>
           </label>
+
+          <div className="text-[0.85rem]">
+            Already have an account?{" "}
+            <Link to="/sign-in" className="font-bold">
+              Sign in
+            </Link>
+          </div>
         </div>
 
         <button
           type="submit"
           className="mt-3 mx-auto sm:mr-0 bg-blue-800 text-white px-7 py-3 font-bold rounded-sm apply-transition hover:bg-yellow-400"
+          disabled={isLoading}
         >
           Register
         </button>

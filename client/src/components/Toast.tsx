@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import useToastStore from "../context/context";
+import useToastStore from "../context/toastStore";
 
 const Toast = () => {
   const { message, show, type, hideToast } = useToastStore((state) => state);
@@ -8,7 +8,7 @@ const Toast = () => {
     if (show) {
       const timer = setTimeout(() => {
         hideToast();
-      }, 2000);
+      }, 3000);
       return () => clearTimeout(timer);
     }
   }, [show, hideToast]);
