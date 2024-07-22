@@ -3,6 +3,7 @@ import { useMutation } from "react-query";
 import * as apiClient from "../service/api-client";
 import ToastStore from "../context/toastStore";
 import { Link, useNavigate } from "react-router-dom";
+import AuthorizedStore from "../context/authorizedStore";
 
 export type RegisterFormData = {
   email: string;
@@ -21,9 +22,11 @@ const Register = () => {
   } = useForm<RegisterFormData>();
   const showToast = ToastStore((state) => state.showToast);
   const navigate = useNavigate();
+  const setIsAuthorized = AuthorizedStore((state) => state.setIsAuthorized);
   const mutation = useMutation(apiClient.register, {
     onSuccess: () => {
       showToast("Account created", "SUCCESS");
+      setIsAuthorized(true);
       navigate("/");
     },
     onError: (error: Error) => {
@@ -146,8 +149,8 @@ const Register = () => {
           </label>
 
           <div className="text-[0.85rem]">
-            Already have an account?{" "}
-            <Link to="/sign-in" className="font-bold">
+            Already have an account?
+            <Link to="/sign-in" className="font-bold ml-1">
               Sign in
             </Link>
           </div>

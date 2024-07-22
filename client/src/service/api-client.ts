@@ -1,4 +1,5 @@
 import { RegisterFormData } from "../pages/Register";
+import { SignInFormType } from "../pages/SignIn";
 
 const baseUrl = import.meta.env.VITE_API_URL;
 
@@ -17,8 +18,39 @@ export const register = async (formData: RegisterFormData) => {
   if (!response.ok) {
     throw new Error(responseBody.message);
   }
+};
 
-  console.log(response);
+export const login = async (formData: SignInFormType) => {
+  const response = await fetch(`${baseUrl}/api/auth/login`, {
+    method: "POST",
+    headers: {
+      "Content-type": "application/json",
+    },
+    body: JSON.stringify(formData),
+    credentials: "include",
+  });
+
+  const body = await response.json();
+  if (!response.ok) {
+    throw new Error(body.message);
+  }
+
+  return body;
+};
+
+export const signOut = async () => {
+  const response = await fetch(`${baseUrl}/api/auth/logout`, {
+    method: "POST",
+    credentials: "include",
+  });
+
+  if (!response.ok) {
+    throw new Error("Failed to sign out");
+  }
+
+  const body = await response.json();
+
+  return body;
 };
 
 export const isLoggedIn = async () => {
@@ -33,6 +65,4 @@ export const isLoggedIn = async () => {
   if (!response.ok) {
     throw new Error("Not logged in");
   }
-
-  return response.json();
 };

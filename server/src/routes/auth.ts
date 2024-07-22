@@ -1,5 +1,5 @@
 import express from "express";
-import { login, validateToken } from "../controllers/auth.controllers";
+import { login, signout, validateToken } from "../controllers/auth.controllers";
 import { check } from "express-validator";
 import verifyToken from "../middleware/auth";
 
@@ -15,6 +15,8 @@ authRouter.post(
   ],
   login
 );
+
+authRouter.post("/logout", signout);
 
 authRouter.get("/validate-token", verifyToken, validateToken);
 

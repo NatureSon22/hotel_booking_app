@@ -8,7 +8,7 @@ const Toast = () => {
     if (show) {
       const timer = setTimeout(() => {
         hideToast();
-      }, 3000);
+      }, 2500);
       return () => clearTimeout(timer);
     }
   }, [show, hideToast]);

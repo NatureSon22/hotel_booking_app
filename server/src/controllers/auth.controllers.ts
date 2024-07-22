@@ -39,14 +39,25 @@ const login = async (req: Request, res: Response) => {
       maxAge: 86400000,
     });
 
-    return res.status(200).json({ userId: user._id });
+    return res.status(200).json({ message: "Logged in successfully" });
   } catch (error) {
     res.status(500).json({ message: "Something went wrong" });
   }
+};
+
+const signout = (req: Request, res: Response) => {
+  res.clearCookie("auth_token", {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    maxAge: 0,
+    domain: "localhost",
+    path: "/",
+  });
+  res.status(200).json({ message: "Logged out successfully" });
 };
 
 const validateToken = (req: Request, res: Response) => {
   res.status(200).json({ useId: req.userId });
 };
 
-export { login, validateToken };
+export { login, signout, validateToken };

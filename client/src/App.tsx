@@ -1,8 +1,11 @@
-import { createBrowserRouter, RouterProvider } from "react-router-dom"
-import Layout from "./layouts/Layout"
-import SignIn from "./pages/SignIn"
-import Home from "./pages/Home"
-import Register from "./pages/Register"
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import Layout from "./layouts/Layout";
+import SignIn from "./pages/SignIn";
+import Home from "./pages/Home";
+import Register from "./pages/Register";
+import Protected from "./layouts/Protected";
+import MyHotels from "./pages/MyHotels";
+import useIsAuthorized from "./hooks/authorized";
 
 const router = createBrowserRouter([
   {
@@ -11,25 +14,32 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/",
-        element: <Home />
+        element: <Home />,
       },
       {
         path: "/sign-in",
-        element: <SignIn />
+        element: <SignIn />,
       },
       {
         path: "/register",
-        element: <Register />
-      }
-    ]
-  }
-])
+        element: <Register />,
+      },
+      {
+        path: "/my-hotels",
+        element: (
+          <Protected>
+            <MyHotels />
+          </Protected>
+        ),
+      },
+    ],
+  },
+]);
 
 const App = () => {
+  useIsAuthorized();
 
-  return (
-    <RouterProvider router={router} />
-  )
-}
+  return <RouterProvider router={router} />;
+};
 
-export default App     
+export default App;

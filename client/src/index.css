@@ -14,4 +14,9 @@
     .apply-transition {
         @apply transition-all duration-200
     }
+
+    .link-design::before {
+        content: "";
+        @apply absolute w-0 h-1 -bottom-2 left-0 bg-yellow-400 apply-transition
+    }
 }
