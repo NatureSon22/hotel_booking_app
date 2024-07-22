@@ -43,7 +43,7 @@ const SignIn = () => {
         <h2 className="text-2xl font-semibold">Login to your account</h2>
 
         <div className="grid gap-4">
-          <label className="flex flex-col gap-2 flex-1">
+          <label className="flex flex-col gap-2 flex-1" >
             <span className="text-sm font-semibold">Email</span>
             <input
               {...register("email", {

@@ -6,6 +6,7 @@ import AuthorizedStore from "../context/authorizedStore";
 const useIsAuthorized = () => {
   const { isSuccess } = useQuery("isAuthorized", apiClient.isLoggedIn, {
     retry: 0,
+    refetchOnWindowFocus: false,
   });
   const setIsAuthorized = AuthorizedStore((state) => state.setIsAuthorized);
 
