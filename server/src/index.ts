@@ -5,15 +5,12 @@ import mongoose from "mongoose";
 import usersRouter from "./routes/users";
 import authRouter from "./routes/auth";
 import cookieParser from "cookie-parser";
-import path from "path";
 
 const app = express();
 app.use(cookieParser());
 app.use(express.json());
 app.use(cors());
 
-// serve the static files on the root of the server
-app.use(express.static(path.join(__dirname, "../../client/dist")));
 
 app.use("/api/auth", authRouter);
 app.use("/api/users", usersRouter);
