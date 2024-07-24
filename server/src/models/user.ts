@@ -1,7 +1,7 @@
 import { Schema, model } from "mongoose";
 import bcrypt from "bcryptjs";
 
-export type UserType = {
+export interface UserType {
   _id: string;
   email: string;
   password: string;
@@ -9,7 +9,7 @@ export type UserType = {
   lastName: string;
 };
 
-const userSchema = new Schema({
+const userSchema = new Schema<UserType>({
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
   firstName: { type: String, required: true },

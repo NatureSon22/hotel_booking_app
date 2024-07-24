@@ -6,6 +6,7 @@ import Register from "./pages/Register";
 import Protected from "./layouts/Protected";
 import MyHotels from "./pages/MyHotels";
 import useIsAuthorized from "./hooks/authorized";
+import AddHotel from "./pages/AddHotel";
 
 const router = createBrowserRouter([
   {
@@ -29,6 +30,14 @@ const router = createBrowserRouter([
         element: (
           <Protected>
             <MyHotels />
+          </Protected>
+        ),
+      },
+      {
+        path: "/add-hotels",
+        element: (
+          <Protected>
+            <AddHotel />
           </Protected>
         ),
       },
