@@ -32,11 +32,12 @@ const FacilitiesSection = () => {
             <li key={facility} className="flex items-center gap-2 p-2">
               <input
                 type="checkbox"
+                id={`facility-${facility}`}
                 value={facility}
-                checked={(watchFacilities || []).includes(facility)}
+                checked={(watchFacilities || [] ).includes(facility)}
                 onChange={() => handleCheckboxChange(facility)}
               />
-              <label>{facility}</label>
+              <label htmlFor={`facility-${facility}`}>{facility}</label>
             </li>
           ))}
         </ul>
