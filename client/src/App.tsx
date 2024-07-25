@@ -35,11 +35,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/add-hotels",
-        element: (
-          <Protected>
-            <AddHotel />
-          </Protected>
-        ),
+        element: <AddHotel />,
       },
     ],
   },

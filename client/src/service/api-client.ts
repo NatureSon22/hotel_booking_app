@@ -59,10 +59,25 @@ export const isLoggedIn = async () => {
     {
       method: "GET",
       credentials: "include",
-    }
+    },
   );
 
   if (!response.ok) {
     throw new Error("Not logged in");
   }
+};
+
+export const addHotels = async (hotelFormData: FormData) => {
+  const response = await fetch(`${baseUrl}/api/my-hotels`, {
+    method: "POST",
+    credentials: "include",
+    body: hotelFormData,
+  });
+
+  const body = await response.json();
+  if (!response.ok) {
+    throw new Error("Failed to add hotel");
+  }
+
+  return body;
 };
