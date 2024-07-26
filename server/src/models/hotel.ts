@@ -4,6 +4,7 @@ export interface HotelType {
   _id: string;
   userId: string;
   city: string;
+  name: string;
   country: string;
   description: string;
   type: string;
@@ -19,6 +20,7 @@ export interface HotelType {
 const hotelSchema = new Schema<HotelType>({
   userId: { type: String, required: true },
   city: { type: String, required: true },
+  name: { type: String, required: true },
   country: { type: String, required: true },
   description: { type: String, required: true },
   type: { type: String, required: true },

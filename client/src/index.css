@@ -19,4 +19,9 @@
         content: "";
         @apply absolute w-0 h-1 -bottom-2 left-0 bg-yellow-400 apply-transition
     }
+
+    .card-style::before {
+        content: "";
+        @apply absolute w-full h-2 top-0 left-0 bg-blue-400 rounded-t-md 
+    }
 }

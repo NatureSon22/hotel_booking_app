@@ -6,6 +6,7 @@ const addHotels = async (req: Request, res: Response) => {
   try {
     const images = req.files as Express.Multer.File[]; // the image files
     const newHotel: HotelType = req.body;
+    console.log(newHotel);
 
     console.log(cloudinary.config());
     // Upload the images to Cloudinary
@@ -31,6 +32,18 @@ const addHotels = async (req: Request, res: Response) => {
     console.error("Error adding hotel:", error);
     res.status(500).json({ message: "Something went wrong", error: error });
   }
-}
+};
 
-export { addHotels }
+const getUserHotels = async (req: Request, res: Response) => {
+  try {
+    const userId = req.userId;
+    const hotels = await Hotel.find({ userId });
+
+    res.status(200).json(hotels);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "Something went wrong" });
+  }
+};
+
+export { addHotels, getUserHotels };
