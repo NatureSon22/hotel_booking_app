@@ -7,6 +7,9 @@ export default {
         open: ["Open Sans", "sans-serif"],
         fair: ["Playfair Display", "serif"],
       },
+      screens: {
+        "xsm": "500px"
+      }
     },
   },
   plugins: [],

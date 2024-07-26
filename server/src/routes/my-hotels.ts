@@ -1,6 +1,6 @@
 import { Router } from "express";
 import multer from "multer";
-import { addHotels, getUserHotels } from "../controllers/hotels.controllers";
+import { addHotels, getHotelById, getUserHotels } from "../controllers/hotels.controllers";
 import verifyToken from "../middleware/auth";
 import { check } from "express-validator";
 
@@ -42,5 +42,7 @@ hotelsRouter.post(
 );
 
 hotelsRouter.get("/", verifyToken, getUserHotels);
+
+hotelsRouter.get("/:id", getHotelById);
 
 export default hotelsRouter;

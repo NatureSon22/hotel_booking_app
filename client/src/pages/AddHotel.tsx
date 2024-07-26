@@ -22,12 +22,7 @@ const AddHotel = () => {
   };
 
   return (
-    <div className="md:py-30 container mx-auto grid max-w-[55em] flex-1 gap-10 px-5 py-20 sm:px-10">
-      <h2 className="w-fit rounded-md bg-yellow-200 px-5 py-2 text-2xl font-bold">
-        Add Hotel
-      </h2>
-      <ManageHotelForm onSave={handleSave} isLoading={isLoading} />
-    </div>
+    <ManageHotelForm onSave={handleSave} isLoading={isLoading} />
   );
 };
 

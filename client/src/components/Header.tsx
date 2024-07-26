@@ -33,7 +33,7 @@ const Header = () => {
             {isAuthorized && (
               <>
                 <Link
-                  to="/add-hotels"
+                  to="/"
                   className="link-design relative hover:before:w-full "
                 >
                   My Bookings

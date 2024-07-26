@@ -8,8 +8,9 @@ const TypeSection = () => {
     register,
     formState: { errors },
     setValue,
+    getValues
   } = useFormContext<HotelFormData>();
-  const [hotelType, setHotelType] = useState("");
+  const [hotelType, setHotelType] = useState(getValues("type"));
 
   const handleClick = (value: string) => {
     setHotelType(value);

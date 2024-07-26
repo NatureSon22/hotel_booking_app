@@ -1,4 +1,6 @@
+import { useNavigate } from "react-router-dom";
 import { HotelType } from "../../../server/src/models/hotel";
+import HotelStore from "../context/hotelStore";
 
 const HotelCard = ({
   name,
@@ -10,10 +12,31 @@ const HotelCard = ({
   pricePerNight,
   starRating,
   type,
+  _id,
 }: HotelType) => {
+  const setHotel = HotelStore((state) => state.setHotel);
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    setHotel({
+      name,
+      country,
+      city,
+      description,
+      adultCount,
+      childCount,
+      pricePerNight,
+      starRating,
+      type,
+      _id,
+    });
+    navigate(`/hotel/${_id}`);
+  };
+
   return (
-    <div className="cursor-pointer space-y-4 rounded-md border px-6 py-7 shadow-lg sm:p-10 card-style relative">
+    <div className="cursor-pointer space-y-4 rounded-md border px-6 py-7 shadow-lg sm:p-10 card-style relative" onClick={handleClick} >
       <p className="font-semibold">{name || "Test"}</p>
+      <p>{_id}</p>
       <p>
         {description}
       </p>

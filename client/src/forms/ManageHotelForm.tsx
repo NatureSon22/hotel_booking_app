@@ -4,6 +4,7 @@ import TypeSection from "./TypeSection";
 import FacilitiesSection from "./FacilitiesSection";
 import GuestsSection from "./GuestsSection";
 import ImagesSection from "./ImagesSection";
+import HotelStore from "../context/hotelStore";
 
 export type HotelFormData = {
   name: string;
@@ -25,7 +26,10 @@ type Prop = {
 };
 
 const ManageHotelForm = ({ onSave, isLoading }: Prop) => {
-  const formMethods = useForm<HotelFormData>({});
+  const hotel = HotelStore((state) => state.hotel);
+  const formMethods = useForm<HotelFormData>({
+    defaultValues: { ...hotel, imageFiles: hotel.imageURLs },
+  });
 
   const onSubmit = (data: HotelFormData) => {
     const formData = new FormData();
@@ -48,30 +52,34 @@ const ManageHotelForm = ({ onSave, isLoading }: Prop) => {
     }
 
     onSave(formData);
-    //console.log(data);
   };
 
   return (
-    <FormProvider {...formMethods}>
-      <form
-        className="grid gap-5"
-        onSubmit={formMethods.handleSubmit(onSubmit)}
-      >
-        <DetailsSection />
-        <TypeSection />
-        <FacilitiesSection />
-        <GuestsSection />
-        <ImagesSection />
-
-        <button
-          type="submit"
-          disabled={isLoading}
-          className={`mx-auto mt-7 w-fit cursor-pointer rounded-sm px-7 py-4 font-bold text-white sm:mr-0 ${isLoading ? "bg-blue-500/80" : "bg-blue-500"}`}
+    <div className="md:py-30 container mx-auto grid max-w-[55em] flex-1 gap-10 px-5 py-20 sm:px-10">
+      <h2 className="w-fit rounded-md bg-yellow-200 px-5 py-2 text-2xl font-bold">
+        Add Hotel
+      </h2>
+      <FormProvider {...formMethods}>
+        <form
+          className="grid gap-5"
+          onSubmit={formMethods.handleSubmit(onSubmit)}
         >
-          {isLoading ? "Saving..." : "Save"}
-        </button>
-      </form>
-    </FormProvider>
+          <DetailsSection />
+          <TypeSection />
+          <FacilitiesSection />
+          <GuestsSection />
+          <ImagesSection />
+
+          <button
+            type="submit"
+            disabled={isLoading}
+            className={`mx-auto mt-7 w-fit cursor-pointer rounded-sm px-7 py-4 font-bold text-white sm:mr-0 ${isLoading ? "bg-blue-500/80" : "bg-blue-500"}`}
+          >
+            {isLoading ? "Saving..." : "Save"}
+          </button>
+        </form>
+      </FormProvider>
+    </div>
   );
 };
 

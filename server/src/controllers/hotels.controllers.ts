@@ -46,4 +46,19 @@ const getUserHotels = async (req: Request, res: Response) => {
   }
 };
 
-export { addHotels, getUserHotels };
+const getHotelById = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    const hotel = await Hotel.findById(id);
+
+    if (!hotel) {
+      return res.status(404).json({ message: "Hotel not found" });
+    }
+
+    res.status(200).json(hotel);
+  } catch (error) {
+    res.status(500).json({ message: "Something went wrong" });
+  }
+};
+
+export { addHotels, getUserHotels, getHotelById };
