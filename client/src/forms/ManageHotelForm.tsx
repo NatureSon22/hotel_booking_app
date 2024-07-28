@@ -4,7 +4,8 @@ import TypeSection from "./TypeSection";
 import FacilitiesSection from "./FacilitiesSection";
 import GuestsSection from "./GuestsSection";
 import ImagesSection from "./ImagesSection";
-import HotelStore from "../context/hotelStore";
+import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
 export type HotelFormData = {
   name: string;
@@ -16,6 +17,7 @@ export type HotelFormData = {
   facilities: string[];
   pricePerNight: number;
   imageFiles: FileList;
+  imageURLs: string[];
   adultCount: number;
   childCount: number;
 };
@@ -23,13 +25,23 @@ export type HotelFormData = {
 type Prop = {
   onSave: (data: FormData) => void;
   isLoading: boolean;
+  hotel?: HotelFormData;
 };
 
-const ManageHotelForm = ({ onSave, isLoading }: Prop) => {
-  const hotel = HotelStore((state) => state.hotel);
+const ManageHotelForm = ({ onSave, isLoading, hotel }: Prop) => {
+  const navigate = useNavigate();
+  // Initialize form with default values
   const formMethods = useForm<HotelFormData>({
-    defaultValues: { ...hotel, imageFiles: hotel.imageURLs },
+    defaultValues: hotel,
   });
+  const { reset } = formMethods;
+
+  // Reset form when hotel prop changes
+  useEffect(() => {
+    if (hotel) {
+      reset(hotel);
+    }
+  }, [hotel, reset]);
 
   const onSubmit = (data: HotelFormData) => {
     const formData = new FormData();
@@ -43,8 +55,14 @@ const ManageHotelForm = ({ onSave, isLoading }: Prop) => {
     formData.append("adultCount", data.adultCount.toString());
     formData.append("childCount", data.childCount.toString());
 
-    for (let i = 0; i < data.facilities.length; i++) {
-      formData.append(`facilities[${i}]`, data.facilities[i]);
+    data.facilities.forEach((facility, i) => {
+      formData.append(`facilities[${i}]`, facility);
+    });
+
+    if (data.imageURLs) {
+      data.imageURLs.forEach((url, i) => {
+        formData.append(`imageURLs[${i}]`, url);
+      });
     }
 
     for (let i = 0; i < data.imageFiles.length; i++) {
@@ -54,11 +72,25 @@ const ManageHotelForm = ({ onSave, isLoading }: Prop) => {
     onSave(formData);
   };
 
+  const handleClick = () => {
+    navigate(-1); // navigate to the page where the user has previously been
+  };
+
   return (
     <div className="md:py-30 container mx-auto grid max-w-[55em] flex-1 gap-10 px-5 py-20 sm:px-10">
-      <h2 className="w-fit rounded-md bg-yellow-200 px-5 py-2 text-2xl font-bold">
-        Add Hotel
-      </h2>
+      {hotel?._id ? (
+        <button
+          className="w-fit rounded-md bg-blue-200 px-5 py-2 text-2xl font-bold"
+          onClick={handleClick}
+        >
+          Back
+        </button>
+      ) : (
+        <h2 className="w-fit rounded-md bg-yellow-200 px-5 py-2 text-2xl font-bold">
+          Add Hotel
+        </h2>
+      )}
+
       <FormProvider {...formMethods}>
         <form
           className="grid gap-5"

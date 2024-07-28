@@ -1,4 +1,4 @@
-import HotelType from "../../../server/src/models/hotel";
+import HotelType, { HotelType } from "../../../server/src/models/hotel";
 import { RegisterFormData } from "../pages/Register";
 import { SignInFormType } from "../pages/SignIn";
 
@@ -69,6 +69,7 @@ export const isLoggedIn = async () => {
 };
 
 export const addHotels = async (hotelFormData: FormData) => {
+  console.log(hotelFormData);
   const response = await fetch(`${baseUrl}/api/my-hotels`, {
     method: "POST",
     credentials: "include",
@@ -83,7 +84,7 @@ export const addHotels = async (hotelFormData: FormData) => {
   return body;
 };
 
-export const getHotels = async (): Promise<HotelType[]> => {
+export const getHotels = async () => {
   const response = await fetch(`${baseUrl}/api/my-hotels`, {
     method: "GET",
     credentials: "include",
@@ -96,9 +97,30 @@ export const getHotels = async (): Promise<HotelType[]> => {
   return response.json();
 };
 
-export const getHotelById = async (id: string) => {
+export const getHotelById = async (id: string): Promise<HotelType> => {
   const response = await fetch(`${baseUrl}/api/my-hotels/${id}`, {
     method: "GET",
+    credentials: "include",
+  });
+
+  if (!response.ok) {
+    throw new Error(response.message);
+  }
+
+  return response.json();
+};
+
+export const editHotel = async ({
+  id,
+  hotel,
+}: {
+  id: string;
+  hotel: FormData;
+}) => {
+  const response = await fetch(`${baseUrl}/api/my-hotels/${id}`, {
+    method: "PUT",
+    credentials: "include",
+    body: hotel,
   });
 
   if (!response.ok) {

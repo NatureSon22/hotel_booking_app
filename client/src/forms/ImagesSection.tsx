@@ -4,19 +4,41 @@ import { HotelFormData } from "./ManageHotelForm";
 const ImagesSection = () => {
   const {
     register,
-    getValues,
     formState: { errors },
+    watch,
+    setValue,
   } = useFormContext<HotelFormData>();
-  console.log(getValues("imageFiles"));
+  const existingImageUrls = watch("imageURLs");
+
+  const handleRemove = (urlToRemove: string) => {
+    setValue(
+      "imageURLs",
+      existingImageUrls.filter((url) => url !== urlToRemove),
+    );
+  };
 
   return (
     <div className="space-y-12">
       <h3 className="mb-4 text-lg font-bold text-gray-500">Images</h3>
 
       <div className="flex flex-wrap gap-4">
-        {getValues("imageFiles")?.map((url) => (
-          <div className="h-40 w-full xsm:flex-1 xsm:min-w-[20em] items-center" key={url}>
-            <img src={url} className="object-cover w-full h-full rounded-md" />
+        {existingImageUrls?.map((url) => (
+          <div
+            className="group relative h-40 w-full items-center xsm:min-w-[20em] xsm:flex-1"
+            key={url}
+          >
+            <img
+              src={url}
+              className="h-full w-full rounded-md object-cover group-hover:brightness-75"
+              alt="images[]:"
+            />
+
+            <button
+              className="apply-transition absolute right-2 top-2 hidden rounded-md border border-white bg-transparent px-2 py-1 text-white hover:bg-red-500 group-hover:block"
+              onClick={() => handleRemove(url)}
+            >
+              &times;
+            </button>
           </div>
         ))}
       </div>
@@ -27,7 +49,7 @@ const ImagesSection = () => {
         accept="image/*"
         {...register("imageFiles", {
           validate: (files) => {
-            const length = files.length;
+            const length = files.length + ( existingImageUrls?.length || 0 );
 
             if (length === 0) {
               return "Please select at least one image";

@@ -8,7 +8,6 @@ const addHotels = async (req: Request, res: Response) => {
     const newHotel: HotelType = req.body;
     console.log(newHotel);
 
-    console.log(cloudinary.config());
     // Upload the images to Cloudinary
     const uploadPromises = images.map(async (image) => {
       const base64 = Buffer.from(image.buffer).toString("base64");
@@ -61,4 +60,53 @@ const getHotelById = async (req: Request, res: Response) => {
   }
 };
 
-export { addHotels, getUserHotels, getHotelById };
+const editHotel = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    const hotelData = req.body;
+
+    const images = req.files as Express.Multer.File[]; // New images
+
+    // Find the existing hotel
+    let updatedHotel = await Hotel.findById(id);
+    if (!updatedHotel) {
+      return res.status(404).json({ message: "Hotel not found" });
+    }
+
+    // Update hotel data
+    updatedHotel.set({
+      ...hotelData,
+    });
+
+    // Handle new image uploads
+    const uploadPromises = images.map(async (image) => {
+      const base64 = Buffer.from(image.buffer).toString("base64");
+      const dataURI = `data:${image.mimetype};base64,${base64}`;
+      try {
+        const result = await cloudinary.uploader.upload(dataURI);
+        return result.url;
+      } catch (uploadError) {
+        throw uploadError;
+      }
+    });
+
+    const newImageUrls = await Promise.all(uploadPromises);
+
+    // Append new images URLs to the existing ones
+    updatedHotel.imageURLs = [
+      ...updatedHotel.imageURLs,
+      ...newImageUrls,
+    ];
+
+    updatedHotel.lastUpdated = new Date();
+
+    await updatedHotel.save();
+
+    res.status(200).json(updatedHotel);
+  } catch (error) {
+    console.error(error); // Log the error for debugging
+    res.status(500).json({ message: "Something went wrong" });
+  }
+};
+
+export { addHotels, getUserHotels, getHotelById, editHotel };

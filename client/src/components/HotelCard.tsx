@@ -34,14 +34,14 @@ const HotelCard = ({
   };
 
   return (
-    <div className="cursor-pointer space-y-4 rounded-md border px-6 py-7 shadow-lg sm:p-10 card-style relative" onClick={handleClick} >
-      <p className="font-semibold">{name || "Test"}</p>
-      <p>{_id}</p>
-      <p>
-        {description}
-      </p>
+    <div
+      className="card-style relative cursor-pointer space-y-4 rounded-md border px-6 py-7 shadow-lg sm:p-10"
+      onClick={handleClick}
+    >
+      <p className="border-b-2 border-gray-100 pb-2 mb-6 text-xl font-semibold">{name}</p>
+      <p>{description}</p>
 
-      <div className="ml-5 space-y-3 text-gray-600 pt-2">
+      <div className="ml-5 space-y-3 pt-2 text-gray-600">
         <div className="flex items-center gap-3">
           <span>&#9873;</span>
           <span>
