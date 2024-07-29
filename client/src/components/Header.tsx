@@ -22,19 +22,19 @@ const Header = () => {
   };
 
   return (
-    <div className="bg-blue-800 py-8 px-6 font-open">
-      <div className="container mx-auto flex justify-between items-center max-w-[65em]">
-        <p className="text-[1.2rem] md:text-[1.4rem] font-extrabold text-white font-fair cursor-pointer relative decor">
+    <div className="bg-blue-800 px-6 py-8 font-open">
+      <div className="container mx-auto flex max-w-[65em] items-center justify-between">
+        <p className="decor relative cursor-pointer font-fair text-[1.2rem] font-extrabold text-white md:text-[1.4rem]">
           <Link to="/">Booking</Link>
         </p>
 
         <div>
-          <ul className="flex gap-3 items-center text-white text-[0.9rem] md:text-[1rem] sm:gap-12">
+          <ul className="flex items-center gap-3 text-[0.9rem] text-white sm:gap-12 md:text-[1rem]">
             {isAuthorized && (
               <>
                 <Link
                   to="/"
-                  className="link-design relative hover:before:w-full "
+                  className="link-design relative hover:before:w-full"
                 >
                   My Bookings
                 </Link>
@@ -48,14 +48,14 @@ const Header = () => {
             )}
             {isAuthorized ? (
               <button
-                className="border border-white/60 px-4 rounded-sm py-2 hover:bg-white hover:text-blue-800 apply-transition"
+                className="apply-transition rounded-sm border border-white/60 px-4 py-2 hover:bg-white hover:text-blue-800"
                 onClick={signOut}
               >
                 Sign out
               </button>
             ) : (
               <Link
-                className="border border-white/60 px-4 rounded-sm py-2 hover:bg-white hover:text-blue-800 apply-transition"
+                className="apply-transition rounded-sm border border-white/60 px-4 py-2 hover:bg-white hover:text-blue-800"
                 to="/sign-in"
               >
                 Sign in

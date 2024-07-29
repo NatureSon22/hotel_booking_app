@@ -8,6 +8,7 @@ import MyHotels from "./pages/MyHotels";
 import useIsAuthorized from "./hooks/authorized";
 import AddHotel from "./pages/AddHotel";
 import ViewHotel from "./pages/ViewHotel";
+import Search from "./pages/Search";
 
 const router = createBrowserRouter([
   {
@@ -41,6 +42,10 @@ const router = createBrowserRouter([
       {
         path: "/hotel/:id",
         element: <ViewHotel />,
+      },
+      {
+        path: "/search", 
+        element: <Search />,
       }
     ],
   },

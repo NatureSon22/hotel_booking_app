@@ -1,3 +1,4 @@
+import { HotelSearchResponse } from './../../../server/src/controllers/search-hotel.controllers';
 import HotelType, { HotelType } from "../../../server/src/models/hotel";
 import { RegisterFormData } from "../pages/Register";
 import { SignInFormType } from "../pages/SignIn";
@@ -128,4 +129,29 @@ export const editHotel = async ({
   }
 
   return response.json();
+};
+
+export type SearchParams = {
+  destination?: string;
+  checkIn?: string;
+  checkOut?: string;
+  adultCount?: string;
+  childCount?: string;
+  page?: string;
+};
+
+export const searchHotels: HotelSearchResponse = async (searchParams: SearchParams) => {
+  const queryParams = new URLSearchParams();
+  queryParams.append("destination", searchParams.destination || "");
+  queryParams.append("checkIn", searchParams.checkIn || "");
+  queryParams.append("checkOut", searchParams.checkOut || "");
+  queryParams.append("adultCount", searchParams.adultCount || "");
+  queryParams.append("childCount", searchParams.childCount || "");
+  queryParams.append("page", searchParams.page || "");
+
+  const response = await fetch(`${baseUrl}/api/hotels/search?${queryParams}`);
+
+  if (!response.ok) {
+    throw new Error("Error fetching search results. Please try again.");
+  }
 };

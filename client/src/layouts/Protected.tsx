@@ -7,8 +7,10 @@ type Props = {
 };
 
 const Protected = ({ children }: Props) => {
-  useIsAuthorized();
+  const {isLoading} = useIsAuthorized();
   const isAuthorized = AuthorizedStore((state) => state.isAuthorized);
+
+  if (isLoading) return <></>;
 
   return isAuthorized ? children : <NotAuthorized />;
 };

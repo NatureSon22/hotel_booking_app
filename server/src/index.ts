@@ -7,6 +7,7 @@ import authRouter from "./routes/auth";
 import cookieParser from "cookie-parser";
 import { v2 as cloudinary } from "cloudinary";
 import hotelsRouter from "./routes/my-hotels";
+import searchRouter from "./routes/search";
 
 const app = express();
 app.use(cookieParser());
@@ -21,6 +22,7 @@ app.use(
 app.use("/api/auth", authRouter);
 app.use("/api/users", usersRouter);
 app.use("/api/my-hotels", hotelsRouter);
+app.use("/api/hotels", searchRouter);
 
 const setup = async () => {
   try {

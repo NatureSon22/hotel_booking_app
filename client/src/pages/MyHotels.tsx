@@ -7,17 +7,28 @@ import ToastStore from "../context/toastStore";
 
 const MyHotels = () => {
   const showToast = ToastStore((state) => state.showToast);
-  const { isLoading, data: hotelData } = useQuery("fetchHotels", apiClient.getHotels, {
-    retry: 0,
-    onError: (error) => {
-      showToast(error.message, "ERROR");
+  const { isLoading, data: hotelData } = useQuery(
+    "fetchHotels",
+    apiClient.getHotels,
+    {
+      retry: 0,
+      onError: (error) => {
+        showToast(error.message, "ERROR");
+      },
     },
-  });
+  );
   const navigate = useNavigate();
 
   const handleAddHotel = () => {
     navigate("/add-hotels");
   };
+
+  if (isLoading) {
+    return;
+    <div className="grid h-full flex-1 place-items-center">
+      <Spinner />
+    </div>;
+  }
 
   return (
     <div className="flex flex-1 flex-col">
@@ -32,24 +43,15 @@ const MyHotels = () => {
           >
             Add Hotel
           </button>
-        </div>
-
-        {isLoading ? (
-          <div className="grid h-full flex-1 place-items-center">
-            <Spinner />
-          </div>
+        </div>{" "}
+        {hotelData?.length === 0 ? (
+          <div>No hotels found...</div>
         ) : (
-          <>
-            {hotelData?.length === 0 ? (
-              <div>No hotels found...</div>
-            ) : (
-              <ul className="grid gap-12 sm:mt-4 sm:grid-cols-2">
-                {hotelData?.map((hotel) => {
-                  return <HotelCard key={hotel._id} {...hotel} />;
-                })}
-              </ul>
-            )}
-          </>
+          <ul className="grid gap-12 sm:mt-4 sm:grid-cols-2">
+            {hotelData?.map((hotel) => {
+              return <HotelCard key={hotel._id} {...hotel} />;
+            })}
+          </ul>
         )}
       </div>
     </div>
