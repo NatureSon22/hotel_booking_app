@@ -27,6 +27,7 @@ const SignIn = () => {
     },
     onError: (error: Error) => {
       showToast(error.message, "ERROR");
+      console.log(error);
     },
   });
 

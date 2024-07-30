@@ -149,9 +149,13 @@ export const searchHotels: HotelSearchResponse = async (searchParams: SearchPara
   queryParams.append("childCount", searchParams.childCount || "");
   queryParams.append("page", searchParams.page || "");
 
-  const response = await fetch(`${baseUrl}/api/hotels/search?${queryParams}`);
+  const response = await fetch(`${baseUrl}/api/hotels?${queryParams}`, {
+    method: "GET"
+  });
 
   if (!response.ok) {
     throw new Error("Error fetching search results. Please try again.");
   }
+
+  return response.json(); 
 };

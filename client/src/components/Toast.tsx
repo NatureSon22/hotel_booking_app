@@ -24,7 +24,7 @@ const Toast = () => {
 
   return (
     <div
-      className={`fixed top-7 sm:top-10 px-7 py-4 bg-white text-[0.9rem] rounded-sm border-t-8 shadow-lg ${colorStyle} ${animationStyle} transition-transform duration-200 ease-in-out`}
+      className={`fixed top-7 z-10 sm:top-10 px-7 py-4 bg-white text-[0.9rem] rounded-sm border-t-8 shadow-lg ${colorStyle} ${animationStyle} transition-transform duration-200 ease-in-out`}
     >
       {message}
     </div>

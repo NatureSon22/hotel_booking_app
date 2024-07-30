@@ -1,23 +1,17 @@
 import React from "react";
-import useSearch from "../hooks/search";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import SearchStore from "../context/searchStore";
 
 const SearchField = () => {
-  const {
-    destination,
-    setDestination,
-    checkIn,
-    setCheckIn,
-    checkOut,
-    setCheckOut,
-    adultCount,
-    setAdultCount,
-    childCount,
-    setChildCount,
-    saveSearchValues,
-    clear,
-  } = useSearch();
+  const search = SearchStore((state) => state);
   const navigate = useNavigate();
+  const [destination, setDestination] = useState(search.destination);
+  const [checkIn, setCheckIn] = useState(search.checkIn);
+  const [checkOut, setCheckOut] = useState(search.checkOut);
+  const [adultCount, setAdultCount] = useState(search.adultCount);
+  const [childCount, setChildCount] = useState(search.childCount);
+  const [hotelId, setHotelId] = useState(search.hotelId);
 
   return (
     <div className="absolute -bottom-28 left-[50%] max-w-[70em] -translate-x-[50%]">
@@ -74,7 +68,14 @@ const SearchField = () => {
           <button
             className="rounded-md bg-red-700 px-7 py-2 text-white"
             onClick={() => {
-              saveSearchValues();
+              search.saveSearchValues(
+                destination,
+                checkIn,
+                checkOut,
+                adultCount,
+                childCount,
+                hotelId,
+              );
               navigate("/search");
             }}
           >
@@ -82,7 +83,7 @@ const SearchField = () => {
           </button>
           <button
             className="rounded-md bg-blue-700 px-7 py-2 text-white"
-            onClick={clear}
+            onClick={search.clear}
           >
             Reset
           </button>
