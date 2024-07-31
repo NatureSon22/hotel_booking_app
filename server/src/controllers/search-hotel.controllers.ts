@@ -32,10 +32,8 @@ const getAllHotels = async (req: Request, res: Response) => {
       req.query.page ? req.query.page.toString() : "1"
     ); // page number
     const skip = (pageNumber - 1) * pageSize; // tell MongoDB how many documents to skip
-    const filters = req.query;
-    let hotels = [];
 
-    hotels = await Hotel.find(query)
+    const hotels = await Hotel.find(query)
       .sort(sortOptions)
       .skip(skip)
       .limit(pageSize);

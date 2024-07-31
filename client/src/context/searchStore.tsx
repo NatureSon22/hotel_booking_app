@@ -1,11 +1,17 @@
 import { create } from "zustand";
 
+type SortOption = "starRating" | "pricePerNightAsc" | "pricePerNightDesc" | "";
+
 type SearchStoreType = {
   destination: string;
   checkIn: string;
   checkOut: string;
   adultCount: number;
   childCount: number;
+  facilities: string[];
+  types: string[];
+  stars: string[];
+  sortOption?: SortOption;
   hotelId?: string;
   saveSearchValues: (
     destination: string,
@@ -15,6 +21,10 @@ type SearchStoreType = {
     childCount: number,
     hotelId?: string,
   ) => void;
+  setSortOption: (sortOption: SortOption) => void;
+  addFacility: (facility: string) => void;
+  addStars: (star: string) => void;
+  addHotelType: (type: string) => void;
   clear: () => void;
 };
 
@@ -24,7 +34,12 @@ const SearchStore = create<SearchStoreType>((set) => ({
   checkOut: new Date().toISOString().split("T")[0],
   adultCount: 1,
   childCount: 1,
+  facilities: [],
+  types: [],
+  stars: [],
   hotelId: "",
+  sortOption: "",
+
   saveSearchValues: (
     destination: string,
     checkIn: string,
@@ -41,6 +56,25 @@ const SearchStore = create<SearchStoreType>((set) => ({
       childCount,
       hotelId,
     }),
+  setSortOption: (sortOption: SortOption) => set({ sortOption }),
+  addFacility: (facility: string) =>
+    set((state) => ({
+      facilities: state.facilities.includes(facility)
+        ? state.facilities.filter((f) => f !== facility)
+        : [...state.facilities, facility],
+    })),
+  addStars: (star: string) =>
+    set((state) => ({
+      stars: state.stars.includes(star)
+        ? state.stars.filter((s) => s !== star)
+        : [...state.stars, star],
+    })),
+  addHotelType: (type: string) =>
+    set((state) => ({
+      types: state.types.includes(type)
+        ? state.types.filter((t) => t !== type)
+        : [...state.types, type],
+    })),
   clear: () =>
     set({
       destination: "",
@@ -49,6 +83,10 @@ const SearchStore = create<SearchStoreType>((set) => ({
       hotelId: "",
       adultCount: 1,
       childCount: 1,
+      facilities: [],
+      types: [],
+      stars: [],
+      sortOption: "",
     }),
 }));
 

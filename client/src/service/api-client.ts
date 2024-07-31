@@ -1,4 +1,4 @@
-import { HotelSearchResponse } from './../../../server/src/controllers/search-hotel.controllers';
+import { HotelSearchResponse } from "./../../../server/src/controllers/search-hotel.controllers";
 import HotelType, { HotelType } from "../../../server/src/models/hotel";
 import { RegisterFormData } from "../pages/Register";
 import { SignInFormType } from "../pages/SignIn";
@@ -138,9 +138,16 @@ export type SearchParams = {
   adultCount?: string;
   childCount?: string;
   page?: string;
+  facilities?: string[];
+  types?: string[];
+  stars?: string[];
+  maxPrice?: string;
+  sortOption?: string;
 };
 
-export const searchHotels: HotelSearchResponse = async (searchParams: SearchParams) => {
+export const searchHotels: HotelSearchResponse = async (
+  searchParams: SearchParams,
+) => {
   const queryParams = new URLSearchParams();
   queryParams.append("destination", searchParams.destination || "");
   queryParams.append("checkIn", searchParams.checkIn || "");
@@ -148,14 +155,34 @@ export const searchHotels: HotelSearchResponse = async (searchParams: SearchPara
   queryParams.append("adultCount", searchParams.adultCount || "");
   queryParams.append("childCount", searchParams.childCount || "");
   queryParams.append("page", searchParams.page || "");
+  queryParams.append("maxPrice", searchParams.maxPrice || "");
+  queryParams.append("sortOption", searchParams.sortOption || "");
+
+  if (searchParams.facilities) {
+    searchParams.facilities.forEach((facility) => {
+      queryParams.append("facilities", facility);
+    });
+  }
+
+  if (searchParams.types) {
+    searchParams.types.forEach((type) => {
+      queryParams.append("types", type);
+    });
+  }
+
+  if (searchParams.stars) {
+    searchParams.stars.forEach((star) => {
+      queryParams.append("stars", star);
+    });
+  }
 
   const response = await fetch(`${baseUrl}/api/hotels?${queryParams}`, {
-    method: "GET"
+    method: "GET",
   });
 
   if (!response.ok) {
     throw new Error("Error fetching search results. Please try again.");
   }
 
-  return response.json(); 
+  return response.json();
 };

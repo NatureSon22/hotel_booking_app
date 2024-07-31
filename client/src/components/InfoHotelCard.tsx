@@ -33,7 +33,7 @@ const InfoHotelCard = ({
         <img
           src={imageURLs[0]}
           alt={name}
-          className="h-full w-full object-cover rounded-md"
+          className="h-full w-full object-cover rounded-sm"
         />
       </div>
 
