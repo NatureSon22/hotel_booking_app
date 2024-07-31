@@ -8,19 +8,25 @@ const addHotels = async (req: Request, res: Response) => {
     const newHotel: HotelType = req.body;
     console.log(newHotel);
 
-    // Upload the images to Cloudinary
-    const uploadPromises = images.map(async (image) => {
+    // Function to upload a single image
+    const uploadImage = async (image: Express.Multer.File) => {
       const base64 = Buffer.from(image.buffer).toString("base64");
       const dataURI = `data:${image.mimetype};base64,${base64}`;
       try {
         const result = await cloudinary.uploader.upload(dataURI);
         return result.url;
       } catch (uploadError) {
+        console.error(
+          `Error uploading image: ${image.originalname}`,
+          uploadError
+        );
         throw uploadError;
       }
-    });
+    };
 
-    const imageUrls = await Promise.all(uploadPromises);
+    // Upload the images to Cloudinary
+    const imageUrls = await Promise.all(images.map(uploadImage));
+
     newHotel.imageURLs = imageUrls;
     newHotel.lastUpdated = new Date();
     newHotel.userId = req.userId;
@@ -32,6 +38,8 @@ const addHotels = async (req: Request, res: Response) => {
     res.status(500).json({ message: "Something went wrong", error: error });
   }
 };
+
+export default addHotels;
 
 const getUserHotels = async (req: Request, res: Response) => {
   try {
@@ -93,10 +101,7 @@ const editHotel = async (req: Request, res: Response) => {
     const newImageUrls = await Promise.all(uploadPromises);
 
     // Append new images URLs to the existing ones
-    updatedHotel.imageURLs = [
-      ...updatedHotel.imageURLs,
-      ...newImageUrls,
-    ];
+    updatedHotel.imageURLs = [...updatedHotel.imageURLs, ...newImageUrls];
 
     updatedHotel.lastUpdated = new Date();
 

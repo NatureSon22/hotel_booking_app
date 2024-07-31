@@ -3,7 +3,9 @@ import { hotelFacilities, hotelTypes } from "../config/hotel-options-config";
 import SearchStore from "../context/searchStore";
 
 const Filter = () => {
-  const { addStars, addFacility, addHotelType } = SearchStore((state) => state);
+  const { addStars, addFacility, addHotelType, setMaxPrice } = SearchStore(
+    (state) => state,
+  );
 
   const handleAddStars = (star: string) => {
     addStars(star);
@@ -60,6 +62,15 @@ const Filter = () => {
               );
             })}
           </div>
+        </div>
+
+        <div className="space-y-3">
+          <p className="font-medium">Price</p>
+          <select onChange={(e) => setMaxPrice(e.target.value)}>
+            {[50, 100, 500, 1000, 5000].map((price) => {
+              return <option key={price}>{price}</option>;
+            })}
+          </select>
         </div>
       </div>
     </div>

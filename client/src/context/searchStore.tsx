@@ -12,6 +12,7 @@ type SearchStoreType = {
   types: string[];
   stars: string[];
   sortOption?: SortOption;
+  maxPrice?: string;
   hotelId?: string;
   saveSearchValues: (
     destination: string,
@@ -25,6 +26,7 @@ type SearchStoreType = {
   addFacility: (facility: string) => void;
   addStars: (star: string) => void;
   addHotelType: (type: string) => void;
+  setMaxPrice: (maxPrice: string) => void;
   clear: () => void;
 };
 
@@ -39,6 +41,7 @@ const SearchStore = create<SearchStoreType>((set) => ({
   stars: [],
   hotelId: "",
   sortOption: "",
+  maxPrice: "",
 
   saveSearchValues: (
     destination: string,
@@ -75,6 +78,7 @@ const SearchStore = create<SearchStoreType>((set) => ({
         ? state.types.filter((t) => t !== type)
         : [...state.types, type],
     })),
+  setMaxPrice: (type: string) => set({ maxPrice: type }),
   clear: () =>
     set({
       destination: "",

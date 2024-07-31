@@ -21,7 +21,8 @@ const Search = () => {
     sortOption: search.sortOption,
     facilities: search.facilities,
     types: search.types,
-    stars: search.stars
+    stars: search.stars,
+    maxPrice: search.maxPrice,
   };
 
   const { data, isLoading } = useQuery(
