@@ -50,7 +50,7 @@ const Search = () => {
 
         <div className="grid flex-1 space-y-10">
           <div className="flex items-center justify-between">
-            <div className="text-xl font-bold">{`${data.pagination.total} ${data.pagination.total > 1 ? "Hotels" : "Hotel"} found`}</div>
+            <div className="text-xl font-bold">{`${data.pagination?.total} ${data.pagination?.total > 1 ? "Hotels" : "Hotel"} found`}</div>
             <SortOptionSelector />
           </div>
 
@@ -62,7 +62,7 @@ const Search = () => {
 
           <Pagination
             page={page}
-            pages={data.pagination.pages}
+            pages={data.pagination?.pages}
             onPageChange={setPage}
           />
         </div>

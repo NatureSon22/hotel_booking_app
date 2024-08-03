@@ -9,6 +9,7 @@ import useIsAuthorized from "./hooks/authorized";
 import AddHotel from "./pages/AddHotel";
 import ViewHotel from "./pages/ViewHotel";
 import Search from "./pages/Search";
+import DetailsPage from "./pages/DetailsPage";
 
 const router = createBrowserRouter([
   {
@@ -44,9 +45,13 @@ const router = createBrowserRouter([
         element: <ViewHotel />,
       },
       {
-        path: "/search", 
+        path: "/search",
         element: <Search />,
-      }
+      },
+      {
+        path: "/view-hotel/:id",
+        element: <DetailsPage />,
+      },
     ],
   },
 ]);

@@ -1,6 +1,8 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 type InfoHotelCardProps = {
+  _id: string;
   name: string;
   city: string;
   country: string;
@@ -16,6 +18,7 @@ type InfoHotelCardProps = {
 };
 
 const InfoHotelCard = ({
+  _id,
   name,
   imageURLs,
   starRating,
@@ -26,6 +29,11 @@ const InfoHotelCard = ({
   const MAX_FACILITIES = 3;
   const facilitiesToDisplay = facilities.slice(0, MAX_FACILITIES);
   const facilitiesToHide = facilities.slice(MAX_FACILITIES);
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    navigate(`/view-hotel/${_id}`);
+  };
 
   return (
     <div className="flex gap-10">
@@ -33,7 +41,7 @@ const InfoHotelCard = ({
         <img
           src={imageURLs[0]}
           alt={name}
-          className="h-full w-full object-cover rounded-sm"
+          className="h-full w-full rounded-sm object-cover"
         />
       </div>
 
@@ -72,7 +80,7 @@ const InfoHotelCard = ({
 
           <div className="space-y-2">
             <p className="text-sm">${pricePerNight} per night</p>
-            <button className="w-max cursor-pointer rounded-sm bg-blue-700 px-6 py-2 font-semibold text-white">
+            <button className="w-max cursor-pointer rounded-sm bg-blue-700 px-6 py-2 font-semibold text-white" onClick={handleClick} >
               View Details
             </button>
           </div>

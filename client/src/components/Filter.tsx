@@ -66,7 +66,8 @@ const Filter = () => {
 
         <div className="space-y-3">
           <p className="font-medium">Price</p>
-          <select onChange={(e) => setMaxPrice(e.target.value)}>
+          <select className="min-w-[10em]" onChange={(e) => setMaxPrice(e.target.value)}>
+            <option value="" className="text-gray-400" >Select Max Price</option>
             {[50, 100, 500, 1000, 5000].map((price) => {
               return <option key={price}>{price}</option>;
             })}

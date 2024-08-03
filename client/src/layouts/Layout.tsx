@@ -7,16 +7,18 @@ import SearchField from "../components/SearchField";
 
 const Layout = () => {
   const location = useLocation();
-  const pathsWithHero = ["/", "/sign-in", "/sign-up"];
-  const pathsWithSearchField = ["/search", "/"];
+  const pathsWithHero = ["", "sign-in", "sign-up", "view-hotel"];
+  const pathsWithSearchField = ["search", ""];
 
   return (
     <div className="flex min-h-screen flex-col">
       <Toast />
       <div className="relative">
         <Header />
-        {pathsWithHero.includes(location.pathname) && <Hero />}
-        {pathsWithSearchField.includes(location.pathname) && <SearchField />}
+        {pathsWithHero.includes(location.pathname.split("/")[1]) && <Hero />}
+        {pathsWithSearchField.includes(location.pathname.split("/")[1]) && (
+          <SearchField />
+        )}
       </div>
       <Outlet />
       <Footer />

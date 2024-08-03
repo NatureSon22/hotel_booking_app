@@ -38,7 +38,9 @@ const getAllHotels = async (req: Request, res: Response) => {
       .skip(skip)
       .limit(pageSize);
 
-    const total = query ? await Hotel.countDocuments(query) : await Hotel.countDocuments({});
+    const total = query
+      ? await Hotel.countDocuments(query)
+      : await Hotel.countDocuments({});
 
     const response: HotelSearchResponse = {
       data: hotels,
@@ -50,6 +52,21 @@ const getAllHotels = async (req: Request, res: Response) => {
     };
 
     res.status(200).json(response);
+  } catch (error) {
+    res.status(500).json({ message: "Something went wrong" });
+  }
+};
+
+const viewHotelById = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    const hotel = await Hotel.findById(id);
+
+    if (!hotel) {
+      return res.status(404).json({ message: "Hotel not found" });
+    }
+
+    res.status(200).json(hotel);
   } catch (error) {
     res.status(500).json({ message: "Something went wrong" });
   }
@@ -110,4 +127,4 @@ const constructQuery = (queryParams: any) => {
   return constructedQuery;
 };
 
-export { getAllHotels };
+export { getAllHotels, viewHotelById };
